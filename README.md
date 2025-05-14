@@ -8,8 +8,9 @@ Priority Queue- Sorting tasks by priority(high,medium,low)
 
 Workflow:
 Click Add Task
-Give title,desciption(optional) and set the priority(high,low,medium)
+Give title,desciption(optional) and set the priority(high,low,medium), Date
 Save
 Tasks will appear according to the priority order
 Delete the task once done
 Undo the task if deleted by mistake
+Filter the tasks according to the date
