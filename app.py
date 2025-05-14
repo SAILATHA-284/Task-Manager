@@ -1,6 +1,8 @@
 from flask import Flask, render_template,request,redirect,url_for,flash
 from models import db,Task
 from structures import TaskL,Undo,TaskSet,PriorityTaskQueue
+from datetime import datetime
+
 
 app=Flask(__name__)
 app.secret_key="secretsuper123"
@@ -23,8 +25,13 @@ def setup():
         task_set.add(t.title)
         
 @app.route('/')
+@app.route('/')
 def index():
-    tasks = Task.query.all()
+    filter_date = request.args.get('date')
+    if filter_date:
+        tasks = Task.query.filter_by(date=filter_date).all()
+    else:
+        tasks = Task.query.all()
 
     priority_queue.clear()
     for task in tasks:
@@ -33,17 +40,19 @@ def index():
     sorted_tasks = priority_queue.get_all()
     return render_template('index.html', tasks=sorted_tasks)
 
+
 @app.route('/add',methods=['GET','POST'])
 def add_task():
     if request.method=='POST':
         title=request.form['title']
         description=request.form['description']
         priority = request.form['priority']
+        task_date = datetime.strptime(request.form['date'], "%Y-%m-%d").date()
         
         if not task_set.add(title):
             flash("task title must be unique!")
             return redirect(url_for('add_task'))
-        task=Task(title=title,description=description,priority=priority)
+        task=Task(title=title,description=description,priority=priority,date=task_date)
         db.session.add(task)
         db.session.commit()
         

@@ -9,7 +9,8 @@ class TaskL:
             'id': task.id,
             'title': task.title,
             'description': task.description,
-            'priority': task.priority 
+            'priority': task.priority,
+            'date': task.date
         })
 
     def remove(self, task):
@@ -29,7 +30,8 @@ class Undo:
         self.stack.append({
             'title': task.title,
             'description': task.description,
-            'priority': task.priority 
+            'priority': task.priority,
+            'date': task.date
         })
 
     def pop(self):
